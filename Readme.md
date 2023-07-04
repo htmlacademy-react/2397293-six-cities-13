@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
 - Студент: [Андрей Ищенко](https://up.htmlacademy.ru/react/13/user/2397293).
-- Наставник: `Artur Litovko`.
+- Наставник: [Artur Litovko](https://github.com/baileys-li).
 
 ---
 
