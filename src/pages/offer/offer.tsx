@@ -1,6 +1,6 @@
 import Header from '../../components/header/header';
 
-const OfferPage = () => {
+function OfferPage() {
 	return (
 		<div className="page">
 			<Header />
@@ -267,7 +267,7 @@ const OfferPage = () => {
 										id="review"
 										name="review"
 										placeholder="Tell how was your stay, what you like and what can be improved"
-									></textarea>
+									/>
 									<div className="reviews__button-wrapper">
 										<p className="reviews__help">
 											To submit review please make sure to set{' '}
@@ -444,6 +444,6 @@ const OfferPage = () => {
 			</main>
 		</div>
 	);
-};
+}
 
 export default OfferPage;

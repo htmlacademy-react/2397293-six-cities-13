@@ -1,4 +1,4 @@
-const OfferNotLoggedPage = () => {
+function OfferNotLoggedPage() {
 	return (
 		<div className="page">
 			<header className="header">
@@ -357,6 +357,6 @@ const OfferNotLoggedPage = () => {
 			</main>
 		</div>
 	);
-};
+}
 
 export default OfferNotLoggedPage;

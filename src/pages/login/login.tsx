@@ -1,4 +1,4 @@
-const LoginPage = () => {
+function LoginPage() {
 	return (
 		<div className="page page--gray page--login">
 			<header className="header">
@@ -63,6 +63,6 @@ const LoginPage = () => {
 			</main>
 		</div>
 	);
-};
+}
 
 export default LoginPage;

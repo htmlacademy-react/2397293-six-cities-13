@@ -1,6 +1,6 @@
 import Header from '../../components/header/header';
 
-const FavoritesPage = () => {
+function FavoritesPage() {
 	return (
 		<div className="page">
 			<Header />
@@ -192,6 +192,6 @@ const FavoritesPage = () => {
 			</footer>
 		</div>
 	);
-};
+}
 
 export default FavoritesPage;

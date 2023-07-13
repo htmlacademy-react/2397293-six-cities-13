@@ -1,6 +1,6 @@
 import Header from '../../components/header/header';
 
-const MainEmptyPage = () => {
+function MainEmptyPage() {
 	return (
 		<div className="page page--gray page--main">
 			<Header />
@@ -62,6 +62,6 @@ const MainEmptyPage = () => {
 			</main>
 		</div>
 	);
-};
+}
 
 export default MainEmptyPage;

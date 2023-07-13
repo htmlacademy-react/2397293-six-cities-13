@@ -1,5 +1,4 @@
 import classNames from 'classnames';
-import React from 'react';
 
 interface CardProps {
 	isPremium: boolean;
@@ -11,7 +10,7 @@ interface CardProps {
 	imageSrc: string;
 }
 
-const Card: React.FC<CardProps> = ({
+function Card({
 	isPremium,
 	isFavorite,
 	price,
@@ -19,7 +18,7 @@ const Card: React.FC<CardProps> = ({
 	description,
 	type,
 	imageSrc,
-}) => {
+}: CardProps) {
 	const bookmarkClassName = classNames(
 		'place-card__bookmark-button',
 		'button',
@@ -72,6 +71,6 @@ const Card: React.FC<CardProps> = ({
 			</div>
 		</article>
 	);
-};
+}
 
 export default Card;

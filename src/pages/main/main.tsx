@@ -1,4 +1,3 @@
-import React from 'react';
 import Card from '../../components/card/card';
 import Header from '../../components/header/header';
 
@@ -6,7 +5,7 @@ interface MainPageProps {
 	offersCount: number;
 }
 
-const MainPage: React.FC<MainPageProps> = ({ offersCount }) => {
+function MainPage({ offersCount }: MainPageProps) {
 	return (
 		<div className="page page--gray page--main">
 			<Header />
@@ -137,6 +136,6 @@ const MainPage: React.FC<MainPageProps> = ({ offersCount }) => {
 			</main>
 		</div>
 	);
-};
+}
 
 export default MainPage;

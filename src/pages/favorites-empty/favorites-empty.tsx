@@ -1,6 +1,6 @@
 import Header from '../../components/header/header';
 
-const FavoritesEmptyPage = () => {
+function FavoritesEmptyPage() {
 	return (
 		<div className="page page--favorites-empty">
 			<Header />
@@ -30,6 +30,6 @@ const FavoritesEmptyPage = () => {
 			</footer>
 		</div>
 	);
-};
+}
 
 export default FavoritesEmptyPage;
