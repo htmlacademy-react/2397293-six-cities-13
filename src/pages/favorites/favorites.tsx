@@ -1,6 +1,9 @@
 import Header from '../../components/header/header';
+import { useDocumentTitle } from '../../hooks/document-title';
 
 function FavoritesPage() {
+	useDocumentTitle('Favorites');
+
 	return (
 		<div className="page">
 			<Header />
