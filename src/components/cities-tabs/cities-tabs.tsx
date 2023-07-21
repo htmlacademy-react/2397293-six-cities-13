@@ -1,3 +1,6 @@
+import { Link } from 'react-router-dom';
+import { CITIES } from '../../constants';
+
 function CitiesTabs() {
 	return (
 		<>
@@ -5,36 +8,18 @@ function CitiesTabs() {
 			<div className="tabs">
 				<section className="locations container">
 					<ul className="locations__list tabs__list">
-						<li className="locations__item">
-							<a className="locations__item-link tabs__item" href="#">
-								<span>Paris</span>
-							</a>
-						</li>
-						<li className="locations__item">
-							<a className="locations__item-link tabs__item" href="#">
-								<span>Cologne</span>
-							</a>
-						</li>
-						<li className="locations__item">
-							<a className="locations__item-link tabs__item" href="#">
-								<span>Brussels</span>
-							</a>
-						</li>
-						<li className="locations__item">
-							<a className="locations__item-link tabs__item tabs__item--active">
-								<span>Amsterdam</span>
-							</a>
-						</li>
-						<li className="locations__item">
-							<a className="locations__item-link tabs__item" href="#">
-								<span>Hamburg</span>
-							</a>
-						</li>
-						<li className="locations__item">
-							<a className="locations__item-link tabs__item" href="#">
-								<span>Dusseldorf</span>
-							</a>
-						</li>
+						{CITIES.map((city) => (
+							<li className="locations__item" key={city}>
+								<Link
+									className={`locations__item-link tabs__item ${
+										city === 'Amsterdam' ? 'tabs__item--active' : ''
+									}`}
+									to="#"
+								>
+									<span>{city}</span>
+								</Link>
+							</li>
+						))}
 					</ul>
 				</section>
 			</div>

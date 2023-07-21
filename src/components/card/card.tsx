@@ -1,24 +1,42 @@
 import classNames from 'classnames';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 interface CardProps {
+	id?: string;
 	isPremium: boolean;
 	isFavorite: boolean;
 	price: number;
 	rating: number;
-	description: string;
+	title: string;
 	type: string;
-	imageSrc: string;
+	previewImage: string;
+	inFavoritePage: boolean;
 }
 
 function Card({
+	id,
 	isPremium,
 	isFavorite,
 	price,
 	rating,
-	description,
+	title,
 	type,
-	imageSrc,
+	previewImage,
+	inFavoritePage,
 }: CardProps) {
+	const [over, setOver] = useState<boolean>(false);
+	const [selectedId, setSelectedId] = useState<string | null>(null);
+
+	useEffect(() => {
+		if (over && id) {
+			setSelectedId(id);
+		}
+		if (!over) {
+			setSelectedId(null);
+		}
+	}, [over, id]);
+
 	const bookmarkClassName = classNames(
 		'place-card__bookmark-button',
 		'button',
@@ -27,20 +45,30 @@ function Card({
 	const bookmarkLabel = `${isFavorite ? 'In' : 'To'} bookmarks`;
 
 	return (
-		<article className="cities__card place-card">
+		<article
+			className={`place-card ${
+				inFavoritePage ? 'favorites__card' : 'cities__card'
+			} `}
+			onMouseOver={() => setOver(true)}
+			onMouseOut={() => setOver(false)}
+		>
 			{isPremium && (
 				<div className="place-card__mark">
 					<span>Premium</span>
 				</div>
 			)}
 
-			<div className="cities__image-wrapper place-card__image-wrapper">
+			<div
+				className={`${
+					inFavoritePage ? 'favorites__image-wrapper' : 'cities__image-wrapper'
+				} place-card__image-wrapper`}
+			>
 				<a href="#">
 					<img
 						className="place-card__image"
-						src={imageSrc}
-						width={260}
-						height={200}
+						src={previewImage}
+						width={inFavoritePage ? 150 : 260}
+						height={inFavoritePage ? 110 : 200}
 						alt="Place image"
 					/>
 				</a>
@@ -65,7 +93,10 @@ function Card({
 					</div>
 				</div>
 				<h2 className="place-card__name">
-					<a href="#">{description}</a>
+					{/* <Link to={`/offer/${id}`}>{title}</Link> */}
+					<Link to="#">
+						{title} {selectedId}
+					</Link>
 				</h2>
 				<p className="place-card__type">{type}</p>
 			</div>
