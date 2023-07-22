@@ -6,25 +6,28 @@ import FavoritesPage from '../../pages/favorites/favorites';
 import OfferPage from '../../pages/offer/offer';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
+import mockOffer from '../../mocks/offers';
 
 interface AppProps {
 	offersCount: number;
 }
 
 function App({ offersCount }: AppProps) {
+	const offers = Array.from({ length: offersCount }, mockOffer);
+
 	return (
 		<BrowserRouter>
 			<Routes>
 				<Route
 					path={AppRouter.Main}
-					element={<MainPage offersCount={offersCount} />}
+					element={<MainPage offersCount={offersCount} offers={offers} />}
 				/>
 				<Route path={AppRouter.Login} element={<LoginPage />} />
 				<Route
 					path={AppRouter.Favorites}
 					element={
-						<PrivateRoute authStatus={AuthStatus.NotAuth}>
-							<FavoritesPage />
+						<PrivateRoute authStatus={AuthStatus.Auth}>
+							<FavoritesPage offers={offers} />
 						</PrivateRoute>
 					}
 				/>
