@@ -1,27 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { CITIES, OFFER_TYPES } from '../constants';
-
-interface ILocation {
-	latitude: number;
-	longitude: number;
-	zoom: number;
-}
-
-export interface IOffer {
-	id: string;
-	title: string;
-	type: string;
-	price: number;
-	city: {
-		name: string;
-		location: ILocation;
-	};
-	location: ILocation;
-	isFavorite: boolean;
-	isPremium: boolean;
-	rating: number;
-	previewImage: string;
-}
+import { ILocation, IOffer } from '../types/types';
 
 function mockLocation(): ILocation {
 	return {

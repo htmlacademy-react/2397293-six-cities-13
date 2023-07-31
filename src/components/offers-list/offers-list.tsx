@@ -1,4 +1,4 @@
-import { IOffer } from '../../mocks/offers';
+import { IOffer } from '../../types/types';
 import Card from '../card/card';
 
 interface OffersListProps {
