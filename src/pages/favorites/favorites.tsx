@@ -1,7 +1,7 @@
 import Card from '../../components/card/card';
 import Header from '../../components/header/header';
 import { useDocumentTitle } from '../../hooks/document-title';
-import { IOffer } from '../../mocks/offers';
+import { IOffer } from '../../types/types';
 import { getFavoriteOffersByCity } from '../../utils';
 
 interface FavoritesPageProps {

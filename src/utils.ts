@@ -1,4 +1,4 @@
-import { IOffer } from './mocks/offers';
+import { IOffer } from './types/types';
 
 function capitalizeFirstLetter(str: string) {
 	return str.charAt(0).toUpperCase() + str.slice(1);
