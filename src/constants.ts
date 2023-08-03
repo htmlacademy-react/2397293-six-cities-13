@@ -1,13 +1,11 @@
 export const PROJECT_NAME = '6 cities';
 
-export const URL_MARKER_DEFAULT =
-	'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';
+export const URL_MARKER_DEFAULT = '/img/pin.svg';
 
-export const URL_MARKER_CURRENT =
-	'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg';
+export const URL_MARKER_CURRENT = '/img/pin-active.svg';
 
 export const OtherData = {
-	offersCount: 5,
+	offersCount: 10,
 } as const;
 
 export const CITIES = [

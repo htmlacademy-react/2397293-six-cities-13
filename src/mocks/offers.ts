@@ -1,12 +1,12 @@
 import { faker } from '@faker-js/faker';
-import { CITIES, OFFER_TYPES } from '../constants';
-import { ILocation, IOffer } from '../types/types';
+import { CITIES, OFFER_TYPES, OtherData } from '../constants';
+import { FullOffer, ILocation, IOffer } from '../types/types';
 
 function mockLocation(): ILocation {
 	return {
 		latitude: faker.location.latitude(),
 		longitude: faker.location.longitude(),
-		zoom: faker.number.int({ min: 1, max: 10 }),
+		zoom: faker.number.int({ min: 1, max: 16 }),
 	};
 }
 
@@ -28,4 +28,29 @@ function mockOffer(): IOffer {
 	};
 }
 
-export default mockOffer;
+function mockFullOffer(): IOffer & FullOffer {
+	return {
+		...mockOffer(),
+		description: faker.lorem.sentence({ min: 5, max: 25 }),
+		bedrooms: faker.number.int({ min: 1, max: 10 }),
+		goods: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, () =>
+			faker.lorem.word()
+		),
+		host: {
+			name: faker.internet.userName(),
+			avatarUrl: faker.image.avatar(),
+			isPro: true,
+		},
+		images: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, () =>
+			faker.image.urlLoremFlickr({ category: 'appartment' })
+		),
+		maxAdults: faker.number.int({ min: 1, max: 10 }),
+	};
+}
+
+const mockOffers = Array.from({ length: OtherData.offersCount }, mockFullOffer);
+const nearPlacesList = Array.from({ length: 3 }, mockFullOffer);
+
+const data = { mockOffers, nearPlacesList };
+
+export default data;

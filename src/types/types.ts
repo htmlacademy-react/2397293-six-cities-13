@@ -4,15 +4,17 @@ export interface ILocation {
 	zoom: number;
 }
 
+export interface ICity {
+	name: string;
+	location: ILocation;
+}
+
 export interface IOffer {
 	id: string;
 	title: string;
 	type: string;
 	price: number;
-	city: {
-		name: string;
-		location: ILocation;
-	};
+	city: ICity;
 	location: ILocation;
 	isFavorite: boolean;
 	isPremium: boolean;
@@ -20,15 +22,29 @@ export interface IOffer {
 	previewImage: string;
 }
 
-export interface ICity {
-	title: string;
-	lat: number;
-	lng: number;
-	zoom: number;
+export interface IUser {
+	name: string;
+	avatarUrl: string;
+	isPro: boolean;
 }
 
-export interface IPoint {
-	title: string;
-	lat: number;
-	lng: number;
+export interface IReviewsItem {
+	id: string;
+	comment: string;
+	date: string;
+	rating: number;
+	user: IUser;
 }
+
+export type FullOffer = Omit<IOffer, 'previewImage'> & {
+	description: string;
+	bedrooms: number;
+	goods: string[];
+	host: {
+		name: string;
+		avatarUrl: string;
+		isPro: boolean;
+	};
+	images: string[];
+	maxAdults: number;
+};
