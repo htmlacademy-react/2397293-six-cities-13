@@ -50,7 +50,7 @@ function Card({
 			<div
 				className={`${bemClassTitle}__image-wrapper place-card__image-wrapper`}
 			>
-				<a href="#">
+				<Link to={`/offer/${id}`}>
 					<img
 						className="place-card__image"
 						src={previewImage}
@@ -58,7 +58,7 @@ function Card({
 						height={bemClassTitle === 'favorites' ? 110 : 200}
 						alt="Place image"
 					/>
-				</a>
+				</Link>
 			</div>
 			<div className="place-card__info">
 				<div className="place-card__price-wrapper">
