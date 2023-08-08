@@ -41,7 +41,7 @@ function mockFullOffer(): IOffer & FullOffer {
 			avatarUrl: faker.image.avatar(),
 			isPro: true,
 		},
-		images: Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, () =>
+		images: Array.from({ length: faker.number.int({ min: 1, max: 6 }) }, () =>
 			faker.image.urlLoremFlickr({ category: 'appartment' })
 		),
 		maxAdults: faker.number.int({ min: 1, max: 10 }),

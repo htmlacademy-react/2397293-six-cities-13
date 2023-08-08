@@ -7,16 +7,48 @@ import { reviews } from '../../mocks/reviews';
 import data from '../../mocks/offers';
 import Map from '../../components/map/map';
 import { FullOffer } from '../../types/types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import classNames from 'classnames';
 
 function OfferPage() {
 	useDocumentTitle('OfferPage');
+
+	const { id } = useParams();
+	const [offerById, setOfferById] = useState<FullOffer | undefined>(undefined);
+	const [loading, setLoading] = useState<boolean>(false);
+
+	useEffect(() => {
+		const getOfferById = () => {
+			setLoading(true);
+
+			try {
+				const offer = data.mockOffers.filter((item) => item.id === id);
+				const nearOffer = data.nearPlacesList.filter((item) => item.id === id);
+				setOfferById(offer.length ? offer[0] : nearOffer[0]);
+				setLoading(false);
+			} catch (error) {
+				setLoading(false);
+			}
+		};
+
+		getOfferById();
+	}, [id]);
 
 	const offerReviews = reviews;
 
 	const [selectNearPlace, setSelectNearPlace] = useState<FullOffer | undefined>(
 		undefined
 	);
+
+	const bookmarkClassName = classNames('offer__bookmark-button', 'button', {
+		'offer__bookmark-button--active': offerById?.isFavorite,
+	});
+	const bookmarkLabel = `${offerById?.isFavorite ? 'In' : 'To'} bookmarks`;
+
+	if (loading) {
+		return <div>Loading...</div>;
+	}
 
 	return (
 		<div className="page">
@@ -25,101 +57,72 @@ function OfferPage() {
 				<section className="offer">
 					<div className="offer__gallery-container container">
 						<div className="offer__gallery">
-							<div className="offer__image-wrapper">
-								<img
-									className="offer__image"
-									src="img/room.jpg"
-									alt="Photo studio"
-								/>
-							</div>
-							<div className="offer__image-wrapper">
-								<img
-									className="offer__image"
-									src="img/apartment-01.jpg"
-									alt="Photo studio"
-								/>
-							</div>
-							<div className="offer__image-wrapper">
-								<img
-									className="offer__image"
-									src="img/apartment-02.jpg"
-									alt="Photo studio"
-								/>
-							</div>
-							<div className="offer__image-wrapper">
-								<img
-									className="offer__image"
-									src="img/apartment-03.jpg"
-									alt="Photo studio"
-								/>
-							</div>
-							<div className="offer__image-wrapper">
-								<img
-									className="offer__image"
-									src="img/studio-01.jpg"
-									alt="Photo studio"
-								/>
-							</div>
-							<div className="offer__image-wrapper">
-								<img
-									className="offer__image"
-									src="img/apartment-01.jpg"
-									alt="Photo studio"
-								/>
-							</div>
+							{offerById?.images.map((image) => (
+								<div className="offer__image-wrapper" key={image}>
+									<img
+										className="offer__image"
+										src={image}
+										alt="Photo studio"
+									/>
+								</div>
+							))}
 						</div>
 					</div>
 					<div className="offer__container container">
 						<div className="offer__wrapper">
-							<div className="offer__mark">
-								<span>Premium</span>
-							</div>
+							{offerById?.isPremium && (
+								<div className="offer__mark">
+									<span>Premium</span>
+								</div>
+							)}
+
 							<div className="offer__name-wrapper">
-								<h1 className="offer__name">
-									Beautiful &amp; luxurious studio at great location
-								</h1>
-								<button className="offer__bookmark-button button" type="button">
+								<h1 className="offer__name">{offerById?.description}</h1>
+								<button className={bookmarkClassName} type="button">
 									<svg className="offer__bookmark-icon" width="31" height="33">
 										<use href="#icon-bookmark"></use>
 									</svg>
-									<span className="visually-hidden">To bookmarks</span>
+									<span className="visually-hidden">{bookmarkLabel}</span>
 								</button>
 							</div>
-							<div className="offer__rating rating">
-								<div className="offer__stars rating__stars">
-									<span style={{ width: '80%' }}></span>
-									<span className="visually-hidden">Rating</span>
+							{offerById?.rating && (
+								<div className="offer__rating rating">
+									<div className="offer__stars rating__stars">
+										<span
+											style={{ width: `${offerById?.rating * 20}%` }}
+										>
+										</span>
+										<span className="visually-hidden">Rating</span>
+									</div>
+									<span className="offer__rating-value rating__value">
+										{offerById?.rating}
+									</span>
 								</div>
-								<span className="offer__rating-value rating__value">4.8</span>
-							</div>
+							)}
+
 							<ul className="offer__features">
 								<li className="offer__feature offer__feature--entire">
-									Apartment
+									{offerById?.type}
 								</li>
 								<li className="offer__feature offer__feature--bedrooms">
-									3 Bedrooms
+									{offerById?.bedrooms} Bedrooms
 								</li>
 								<li className="offer__feature offer__feature--adults">
-									Max 4 adults
+									Max {offerById?.maxAdults} adults
 								</li>
 							</ul>
 							<div className="offer__price">
-								<b className="offer__price-value">&euro;120</b>
+								<b className="offer__price-value">&euro;{offerById?.price}</b>
 								<span className="offer__price-text">&nbsp;night</span>
 							</div>
 							<div className="offer__inside">
 								<h2 className="offer__inside-title">What&apos;s inside</h2>
 								<ul className="offer__inside-list">
-									<li className="offer__inside-item">Wi-Fi</li>
-									<li className="offer__inside-item">Washing machine</li>
-									<li className="offer__inside-item">Towels</li>
-									<li className="offer__inside-item">Heating</li>
-									<li className="offer__inside-item">Coffee machine</li>
-									<li className="offer__inside-item">Baby seat</li>
-									<li className="offer__inside-item">Kitchen</li>
-									<li className="offer__inside-item">Dishwasher</li>
-									<li className="offer__inside-item">Cabel TV</li>
-									<li className="offer__inside-item">Fridge</li>
+									{offerById?.goods.map((item) => (
+										<li className="offer__inside-item" key={item}>
+											{item}
+										</li>
+									))}
 								</ul>
 							</div>
 							<div className="offer__host">
@@ -128,14 +131,18 @@ function OfferPage() {
 									<div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
 										<img
 											className="offer__avatar user__avatar"
-											src="img/avatar-angelina.jpg"
+											src={offerById?.host.avatarUrl}
 											width={74}
 											height={74}
 											alt="Host avatar"
 										/>
 									</div>
-									<span className="offer__user-name">Angelina</span>
-									<span className="offer__user-status">Pro</span>
+									<span className="offer__user-name">
+										{offerById?.host.name}
+									</span>
+									{offerById?.host.isPro && (
+										<span className="offer__user-status">Pro</span>
+									)}
 								</div>
 								<div className="offer__description">
 									<p className="offer__text">
@@ -160,7 +167,6 @@ function OfferPage() {
 							</section>
 						</div>
 					</div>
-					{/* <section className="offer__map map"></section> */}
 					<Map
 						city={data.nearPlacesList[0].city}
 						points={data.nearPlacesList}
