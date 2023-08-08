@@ -1,11 +1,11 @@
-import { IOffer } from './types/types';
+import { FullOffer } from './types/types';
 
 function capitalizeFirstLetter(str: string) {
 	return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-function getOffersByCity(offers: IOffer[]) {
-	const offersByCity: Record<string, IOffer[]> = {};
+function getOffersByCity(offers: FullOffer[]) {
+	const offersByCity: Record<string, FullOffer[]> = {};
 
 	for (const offer of offers) {
 		const city = offer.city.name;
@@ -21,8 +21,8 @@ function getOffersByCity(offers: IOffer[]) {
 	return offersByCity;
 }
 
-function getFavoriteOffersByCity(offers: IOffer[]) {
-	const offersByCity: Record<string, IOffer[]> = {};
+function getFavoriteOffersByCity(offers: FullOffer[]) {
+	const offersByCity: Record<string, FullOffer[]> = {};
 
 	for (const offer of offers) {
 		if (offer.isFavorite) {

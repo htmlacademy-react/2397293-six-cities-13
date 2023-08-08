@@ -1,17 +1,17 @@
 import Card from '../../components/card/card';
 import Header from '../../components/header/header';
 import { useDocumentTitle } from '../../hooks/document-title';
-import { IOffer } from '../../types/types';
+import { FullOffer } from '../../types/types';
 import { getFavoriteOffersByCity } from '../../utils';
 
 interface FavoritesPageProps {
-	offers: IOffer[];
+	offers: FullOffer[];
 }
 
 function FavoritesPage({ offers }: FavoritesPageProps) {
 	useDocumentTitle('Favorites');
 
-	const offersByCity: Record<string, IOffer[]> =
+	const offersByCity: Record<string, FullOffer[]> =
 		getFavoriteOffersByCity(offers);
 
 	return (
@@ -35,7 +35,11 @@ function FavoritesPage({ offers }: FavoritesPageProps) {
 									</div>
 									<div className="favorites__places">
 										{cards.map((offer) => (
-											<Card {...offer} inFavoritePage key={offer.id} />
+											<Card
+												{...offer}
+												bemClassTitle="favorites"
+												key={offer.id}
+											/>
 										))}
 									</div>
 								</li>

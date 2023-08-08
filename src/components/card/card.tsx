@@ -1,17 +1,18 @@
 import classNames from 'classnames';
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 interface CardProps {
-	id?: string;
+	id: string;
 	isPremium: boolean;
 	isFavorite: boolean;
 	price: number;
 	rating: number;
 	title: string;
 	type: string;
-	previewImage: string;
-	inFavoritePage: boolean;
+	previewImage?: string;
+	bemClassTitle: string;
+	onMouseEnter?: () => void;
+	onMouseLeave?: () => void;
 }
 
 function Card({
@@ -23,20 +24,10 @@ function Card({
 	title,
 	type,
 	previewImage,
-	inFavoritePage,
+	bemClassTitle,
+	onMouseEnter,
+	onMouseLeave,
 }: CardProps) {
-	const [over, setOver] = useState<boolean>(false);
-	const [selectedId, setSelectedId] = useState<string | null>(null);
-
-	useEffect(() => {
-		if (over && id) {
-			setSelectedId(id);
-		}
-		if (!over) {
-			setSelectedId(null);
-		}
-	}, [over, id]);
-
 	const bookmarkClassName = classNames(
 		'place-card__bookmark-button',
 		'button',
@@ -46,11 +37,9 @@ function Card({
 
 	return (
 		<article
-			className={`place-card ${
-				inFavoritePage ? 'favorites__card' : 'cities__card'
-			} `}
-			onMouseOver={() => setOver(true)}
-			onMouseOut={() => setOver(false)}
+			className={`place-card ${bemClassTitle}__card`}
+			onMouseEnter={onMouseEnter}
+			onMouseLeave={onMouseLeave}
 		>
 			{isPremium && (
 				<div className="place-card__mark">
@@ -59,19 +48,17 @@ function Card({
 			)}
 
 			<div
-				className={`${
-					inFavoritePage ? 'favorites__image-wrapper' : 'cities__image-wrapper'
-				} place-card__image-wrapper`}
+				className={`${bemClassTitle}__image-wrapper place-card__image-wrapper`}
 			>
-				<a href="#">
+				<Link to={`/offer/${id}`}>
 					<img
 						className="place-card__image"
 						src={previewImage}
-						width={inFavoritePage ? 150 : 260}
-						height={inFavoritePage ? 110 : 200}
+						width={bemClassTitle === 'favorites' ? 150 : 260}
+						height={bemClassTitle === 'favorites' ? 110 : 200}
 						alt="Place image"
 					/>
-				</a>
+				</Link>
 			</div>
 			<div className="place-card__info">
 				<div className="place-card__price-wrapper">
@@ -93,10 +80,7 @@ function Card({
 					</div>
 				</div>
 				<h2 className="place-card__name">
-					{/* <Link to={`/offer/${id}`}>{title}</Link> */}
-					<Link to="#">
-						{title} {selectedId}
-					</Link>
+					<Link to={`/offer/${id}`}>{title}</Link>
 				</h2>
 				<p className="place-card__type">{type}</p>
 			</div>
