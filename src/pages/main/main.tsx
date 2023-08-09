@@ -1,26 +1,18 @@
-import { useState } from 'react';
 import Header from '../../components/header/header';
 import OffersList from '../../components/offers-list/offers-list';
 import { useDocumentTitle } from '../../hooks/document-title';
 import { FullOffer } from '../../types/types';
 import { getOffersByCity } from '../../utils';
-import { CITIES } from '../../constants';
-import { Link } from 'react-router-dom';
-import classNames from 'classnames';
+import { useAppSelector } from '../../hooks/useSelectors';
+import CitiesList from '../../components/cities-list/cities-list';
 
-interface MainPageProps {
-	offers: FullOffer[];
-}
-
-function MainPage({ offers }: MainPageProps) {
+function MainPage() {
 	useDocumentTitle('MainPage');
 
+	const offers = useAppSelector((state) => state.offersData.offers);
+	const activeCity = useAppSelector((state) => state.offersData.activeCity);
+
 	const offersByCity: Record<string, FullOffer[]> = getOffersByCity(offers);
-
-	const cities = [];
-	cities.push(...CITIES);
-
-	const [activeCity, setActiveCity] = useState(cities[0]);
 
 	const currentOffers = offersByCity[activeCity];
 
@@ -29,29 +21,7 @@ function MainPage({ offers }: MainPageProps) {
 			<Header />
 			<main className="page__main page__main--index">
 				<h1 className="visually-hidden">Cities</h1>
-				<div className="tabs">
-					<section className="locations container">
-						<ul className="locations__list tabs__list">
-							{cities.map((city) => (
-								<li className="locations__item" key={city}>
-									<Link
-										className={classNames(
-											'locations__item-link',
-											'tabs__item',
-											{ 'tabs__item--active': city === activeCity }
-										)}
-										onClick={() => {
-											setActiveCity(city);
-										}}
-										to="#"
-									>
-										<span>{city}</span>
-									</Link>
-								</li>
-							))}
-						</ul>
-					</section>
-				</div>
+				<CitiesList activeCity={activeCity} />
 				<div className="cities">
 					{currentOffers ? (
 						<OffersList activeCity={activeCity} offers={currentOffers} />
