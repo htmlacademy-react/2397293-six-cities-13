@@ -36,3 +36,10 @@ export enum AuthStatus {
 	NotAuth = 'NOT_AUTH',
 	Unknown = 'UNKNOWN',
 }
+
+export const SortingTypes = {
+	Popular: 'Popular',
+	PriceToHigh: 'Price: low to high',
+	PriceToLow: 'Price: high to low',
+	Rating: 'Top rated first',
+} as const;

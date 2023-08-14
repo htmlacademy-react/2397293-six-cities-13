@@ -2,7 +2,7 @@ import Header from '../../components/header/header';
 import OffersList from '../../components/offers-list/offers-list';
 import { useDocumentTitle } from '../../hooks/document-title';
 import { FullOffer } from '../../types/types';
-import { getOffersByCity } from '../../utils';
+import { getOffersByCity } from '../../utils/get-offers-by-city';
 import { useAppSelector } from '../../hooks/useSelectors';
 import CitiesList from '../../components/cities-list/cities-list';
 

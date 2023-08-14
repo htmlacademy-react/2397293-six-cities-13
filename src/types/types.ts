@@ -1,3 +1,5 @@
+import { SortingTypes } from '../constants';
+
 export interface ILocation {
 	latitude: number;
 	longitude: number;
@@ -48,3 +50,5 @@ export type FullOffer = Omit<IOffer, 'previewImage'> & {
 	images: string[];
 	maxAdults: number;
 };
+
+export type Sorting = keyof typeof SortingTypes;

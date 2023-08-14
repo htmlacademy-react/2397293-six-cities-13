@@ -1,28 +1,34 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { CITIES } from '../../constants';
-import { FullOffer, ICity } from '../../types/types';
-import { fetchOffers, setActiveCity } from '../actions';
+import { FullOffer, ICity, Sorting } from '../../types/types';
 import data from '../../mocks/offers';
 
 const initialState: {
 	offers: FullOffer[];
 	activeCity: ICity['name'];
+	sorting: Sorting;
 } = {
 	offers: data.mockOffers,
 	activeCity: CITIES[0],
+	sorting: 'Popular',
 };
 
-export const offersData = createSlice({
+const offersData = createSlice({
 	name: 'offersData',
 	initialState,
-	reducers: {},
-	extraReducers(builder) {
-		builder
-			.addCase(fetchOffers, (state, action) => {
-				state.offers = action.payload;
-			})
-			.addCase(setActiveCity, (state, action) => {
-				state.activeCity = action.payload;
-			});
+	reducers: {
+		setSorting(state, action: PayloadAction<Sorting>) {
+			state.sorting = action.payload;
+		},
+		fetchOffers(state, action: PayloadAction<FullOffer[]>) {
+			state.offers = action.payload;
+		},
+		setActiveCity(state, action: PayloadAction<ICity['name']>) {
+			state.activeCity = action.payload;
+		},
 	},
 });
+
+export const { setSorting, fetchOffers, setActiveCity } = offersData.actions;
+
+export default offersData.reducer;
