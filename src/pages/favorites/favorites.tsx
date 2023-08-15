@@ -2,7 +2,7 @@ import Card from '../../components/card/card';
 import Header from '../../components/header/header';
 import { useDocumentTitle } from '../../hooks/document-title';
 import { FullOffer } from '../../types/types';
-import { getFavoriteOffersByCity } from '../../utils';
+import { getFavoriteOffersByCity } from '../../utils/get-offers-by-city';
 
 interface FavoritesPageProps {
 	offers: FullOffer[];

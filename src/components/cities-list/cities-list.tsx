@@ -3,7 +3,7 @@ import { CITIES } from '../../constants';
 import classNames from 'classnames';
 import { ICity } from '../../types/types';
 import { useAppDispatch } from '../../hooks/useSelectors';
-import { setActiveCity } from '../../store/actions';
+import { setActiveCity } from '../../store/offers-data/offers-data';
 
 interface ICitiesListProps {
 	activeCity: ICity['name'];

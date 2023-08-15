@@ -1,4 +1,4 @@
-import { FullOffer } from './types/types';
+import { FullOffer } from '../types/types';
 
 function capitalizeFirstLetter(str: string) {
 	return str.charAt(0).toUpperCase() + str.slice(1);
