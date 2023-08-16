@@ -10,13 +10,13 @@ function useMap(
 	const isRenderedRef = useRef<boolean>(false);
 
 	useEffect(() => {
-		if (mapRef.current !== null && !isRenderedRef.current) {
+		if (mapRef.current !== null && !isRenderedRef.current && city) {
 			const instance = new Map(mapRef.current, {
 				center: {
 					lat: city.location.latitude,
 					lng: city.location.longitude,
 				},
-				zoom: 1,
+				zoom: 13,
 			});
 
 			const layer = new TileLayer(

@@ -37,6 +37,26 @@ export enum AuthStatus {
 	Unknown = 'UNKNOWN',
 }
 
+export enum RequestStatus {
+	Idle = 'IDLE',
+	Loading = 'LOADING',
+	Success = 'SUCCESS',
+	Failed = 'FAILED',
+}
+
+export const Endpoint = {
+	Login: '/login',
+	Favorites: '/favorites',
+	Offers: '/offers',
+	Comments: '/comments',
+	Logout: '/logout',
+} as const;
+
+export const FavoriteStatus = {
+	AddFavorite: '1',
+	DeleteFavorite: '0',
+};
+
 export const SortingTypes = {
 	Popular: 'Popular',
 	PriceToHigh: 'Price: low to high',

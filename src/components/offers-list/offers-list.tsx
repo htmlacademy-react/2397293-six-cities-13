@@ -2,8 +2,8 @@ import { FullOffer } from '../../types/types';
 import Card from '../card/card';
 import Map from '../../components/map/map';
 import { SetStateAction, useState } from 'react';
-import SortingForm from '../sorting-form/sorting-form';
 import { useAppSelector } from '../../hooks/useSelectors';
+import SortingForm from '../sorting-form/sorting-form';
 import { sortingHelper } from '../../utils/sorting';
 
 interface OffersListProps {

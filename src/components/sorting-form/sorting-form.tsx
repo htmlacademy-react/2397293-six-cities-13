@@ -3,7 +3,7 @@ import { Sorting } from '../../types/types';
 import { useAppDispatch, useAppSelector } from '../../hooks/useSelectors';
 import { SortingTypes } from '../../constants';
 import classNames from 'classnames';
-import { setSorting } from '../../store/offers-data/offers-data';
+import { offersActions } from '../../store/offers-data/offers-data';
 
 const SortingForm = () => {
 	const dispatch = useAppDispatch();
@@ -22,7 +22,7 @@ const SortingForm = () => {
 
 	function handleSorting(type: Sorting) {
 		setIsOpen(false);
-		dispatch(setSorting(type));
+		dispatch(offersActions.setSorting(type));
 	}
 
 	useEffect(() => {
