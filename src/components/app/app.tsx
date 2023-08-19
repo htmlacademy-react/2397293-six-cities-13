@@ -12,10 +12,7 @@ function App() {
 	return (
 		<BrowserRouter>
 			<Routes>
-				<Route
-					path={AppRouter.Main}
-					element={<MainPage offers={data.mockOffers} />}
-				/>
+				<Route path={AppRouter.Main} element={<MainPage />} />
 				<Route path={AppRouter.Login} element={<LoginPage />} />
 				<Route
 					path={AppRouter.Favorites}

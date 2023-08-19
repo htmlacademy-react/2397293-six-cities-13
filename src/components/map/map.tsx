@@ -39,7 +39,7 @@ function Map({ city, points, selectOffer, titleByClassName }: MapProps) {
 
 				marker
 					.setIcon(
-						selectOffer !== undefined && point.title === selectOffer.title
+						selectOffer !== undefined && point.id === selectOffer.id
 							? currentCustomIcon
 							: defaultCustomIcon
 					)
@@ -50,7 +50,16 @@ function Map({ city, points, selectOffer, titleByClassName }: MapProps) {
 				map.removeLayer(markerLayer);
 			};
 		}
-	}, [map, points, selectOffer]);
+	}, [map, points, selectOffer, city]);
+
+	useEffect(() => {
+		if (city) {
+			map?.setView(
+				[city.location.latitude, city.location?.longitude],
+				city.location.zoom
+			);
+		}
+	}, [city, map]);
 
 	return (
 		<section

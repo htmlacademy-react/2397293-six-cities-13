@@ -30,6 +30,14 @@ export interface IUser {
 	isPro: boolean;
 }
 
+export interface ServerUser {
+	avatarUrl: string;
+	email: string;
+	isPro: boolean;
+	name: string;
+	token: string;
+}
+
 export interface IReviewsItem {
 	id: string;
 	comment: string;
