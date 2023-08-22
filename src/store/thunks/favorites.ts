@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { FullOffer } from '../../types/types';
 import { ThunkApi } from '../../types/state';
 import { Endpoint } from '../../constants';
+import { FavoriteStatus } from '../../constants';
 
 const fetchFavorites = createAsyncThunk<FullOffer[], undefined, ThunkApi>(
 	'favorite/fetchAll',
@@ -13,12 +14,12 @@ const fetchFavorites = createAsyncThunk<FullOffer[], undefined, ThunkApi>(
 
 interface ChangeProps {
 	offerId: string;
-	status: 1 | 0;
+	status: FavoriteStatus;
 }
 
 interface ChangeResponse {
 	offer: FullOffer;
-	status: 1 | 0;
+	status: FavoriteStatus;
 }
 
 const changeFavorite = createAsyncThunk<ChangeResponse, ChangeProps, ThunkApi>(

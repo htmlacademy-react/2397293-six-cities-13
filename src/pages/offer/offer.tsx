@@ -9,10 +9,10 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import classNames from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../hooks/useSelectors';
-import { getNearbyOffers, getOffer } from '../../store/thunks/offers';
 import { fetchComments } from '../../store/thunks/comments';
 import { RequestStatus } from '../../constants';
 import { ClipLoader } from 'react-spinners';
+import { getNearbyOffers, getOffer } from '../../store/thunks/offers';
 import { getRandomSlice } from '../../utils/generate-random-number';
 
 function OfferPage() {

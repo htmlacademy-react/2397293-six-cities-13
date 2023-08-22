@@ -46,16 +46,16 @@ export enum RequestStatus {
 
 export const Endpoint = {
 	Login: '/login',
-	Favorites: '/favorites',
+	Favorites: '/favorite',
 	Offers: '/offers',
 	Comments: '/comments',
 	Logout: '/logout',
 } as const;
 
-export const FavoriteStatus = {
-	AddFavorite: '1',
-	DeleteFavorite: '0',
-};
+export enum FavoriteStatus {
+	AddFavorite = '1',
+	DeleteFavorite = '0',
+}
 
 export const SortingTypes = {
 	Popular: 'Popular',
