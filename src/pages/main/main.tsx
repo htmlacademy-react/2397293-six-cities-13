@@ -6,9 +6,10 @@ import { getOffersByCity } from '../../utils/get-offers-by-city';
 import { useAppDispatch, useAppSelector } from '../../hooks/useSelectors';
 import CitiesList from '../../components/cities-list/cities-list';
 import { useEffect } from 'react';
-import { getAllOffers } from '../../store/thunks/offers';
 import { RequestStatus } from '../../constants';
 import { ClipLoader } from 'react-spinners';
+import { fetchFavorites } from '../../store/thunks/favorites';
+import { getAllOffers } from '../../store/thunks/offers';
 
 function MainPage() {
 	useDocumentTitle('MainPage');
@@ -27,6 +28,7 @@ function MainPage() {
 
 	useEffect(() => {
 		dispatch(getAllOffers());
+		dispatch(fetchFavorites());
 	}, [dispatch]);
 
 	return (

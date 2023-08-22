@@ -17,7 +17,7 @@ interface LoginData {
 	password: string;
 }
 
-const login = createAsyncThunk<ServerUser, LoginData, ThunkApi>(
+const loginAction = createAsyncThunk<ServerUser, LoginData, ThunkApi>(
 	'auth/login',
 	async (body, { extra: api }) => {
 		const response = await api.post<ServerUser>(Endpoint.Login, body);
@@ -33,4 +33,4 @@ const logout = createAsyncThunk<unknown, undefined, ThunkApi>(
 	}
 );
 
-export { checkAuth, login, logout };
+export { checkAuth, loginAction, logout };
