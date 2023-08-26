@@ -7,13 +7,14 @@ import Map from '../../components/map/map';
 import { FullOffer } from '../../types/types';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import classNames from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../hooks/useSelectors';
 import { fetchComments } from '../../store/thunks/comments';
-import { RequestStatus } from '../../constants';
+import { AuthStatus, RequestStatus } from '../../constants';
 import { ClipLoader } from 'react-spinners';
 import { getNearbyOffers, getOffer } from '../../store/thunks/offers';
 import { getRandomSlice } from '../../utils/generate-random-number';
+import NotFoundScreen from '../not-found-screen/not-found-screen';
+import FavoriteButton from '../../components/favorite-button/favorite-button';
 
 function OfferPage() {
 	useDocumentTitle('OfferPage');
@@ -29,15 +30,26 @@ function OfferPage() {
 	const nearPlacesList = useAppSelector(
 		(state) => state.nearbyData.nearbyOffers
 	);
+	const authStatus = useAppSelector(
+		(state) => state.authData.authorizationStatus
+	);
 
 	const [randomNearbyOffers, setRandomNearbyOffers] = useState<FullOffer[]>([]);
 	const [selectNearPlace, setSelectNearPlace] = useState<FullOffer | undefined>(
 		undefined
 	);
 
+	const [errorId, setErrorId] = useState(false);
+
 	useEffect(() => {
 		if (id) {
-			dispatch(getOffer(id));
+			dispatch(getOffer(id)).then((res) => {
+				if (res.meta.requestStatus === 'rejected') {
+					setErrorId(true);
+				} else {
+					setErrorId(false);
+				}
+			});
 			dispatch(fetchComments(id));
 			dispatch(getNearbyOffers(id));
 		}
@@ -50,14 +62,13 @@ function OfferPage() {
 		}
 	}, [nearPlacesList]);
 
-	const bookmarkClassName = classNames('offer__bookmark-button', 'button', {
-		'offer__bookmark-button--active': offerById?.isFavorite,
-	});
-	const bookmarkLabel = `${offerById?.isFavorite ? 'In' : 'To'} bookmarks`;
+	if (errorId) {
+		return <NotFoundScreen />;
+	}
 
 	return (
 		<div className="page">
-			<Header />
+			<Header withNavigation />
 			{statusFetchingOffer === RequestStatus.Loading ? (
 				<div
 					style={{
@@ -96,16 +107,14 @@ function OfferPage() {
 
 								<div className="offer__name-wrapper">
 									<h1 className="offer__name">{offerById?.title}</h1>
-									<button className={bookmarkClassName} type="button">
-										<svg
-											className="offer__bookmark-icon"
-											width="31"
-											height="33"
-										>
-											<use href="#icon-bookmark"></use>
-										</svg>
-										<span className="visually-hidden">{bookmarkLabel}</span>
-									</button>
+									{offerById && (
+										<FavoriteButton
+											bemClassTitle="offer"
+											isFavorite={offerById?.isFavorite}
+											offerId={offerById?.id}
+											width={31}
+										/>
+									)}
 								</div>
 								{offerById?.rating && (
 									<div className="offer__rating rating">
@@ -123,14 +132,19 @@ function OfferPage() {
 								)}
 
 								<ul className="offer__features">
-									<li className="offer__feature offer__feature--entire">
-										{offerById?.type}
-									</li>
+									{offerById && (
+										<li className="offer__feature offer__feature--entire">
+											{offerById?.type[0].toUpperCase() +
+												offerById?.type.slice(1)}
+										</li>
+									)}
 									<li className="offer__feature offer__feature--bedrooms">
-										{offerById?.bedrooms} Bedrooms
+										{offerById?.bedrooms}{' '}
+										{offerById?.bedrooms === 1 ? 'Bedroom' : 'Bedrooms'}
 									</li>
 									<li className="offer__feature offer__feature--adults">
-										Max {offerById?.maxAdults} adults
+										Max {offerById?.maxAdults}{' '}
+										{offerById?.maxAdults === 1 ? 'adult' : 'adults'}
 									</li>
 								</ul>
 								<div className="offer__price">
@@ -178,7 +192,9 @@ function OfferPage() {
 										</span>
 									</h2>
 									<ReviewsList offerReviews={offerReviews} />
-									<FormForReview />
+									{authStatus === AuthStatus.Auth && id && (
+										<FormForReview offerId={id} />
+									)}
 								</section>
 							</div>
 							<Map

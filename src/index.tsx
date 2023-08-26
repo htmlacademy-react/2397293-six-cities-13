@@ -4,6 +4,7 @@ import App from './components/app/app';
 import { Provider } from 'react-redux';
 import { store } from './store';
 import { checkAuth } from './store/thunks/auth';
+import { Toaster } from 'react-hot-toast';
 
 store.dispatch(checkAuth());
 
@@ -16,5 +17,6 @@ root.render(
 		<Provider store={store}>
 			<App />
 		</Provider>
+		<Toaster position="top-center" />
 	</React.StrictMode>
 );

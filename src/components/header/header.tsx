@@ -1,21 +1,17 @@
 import { Link } from 'react-router-dom';
 import Logo from '../logo/logo';
 import { AppRouter, AuthStatus } from '../../constants';
-import { useAppDispatch, useAppSelector } from '../../hooks/useSelectors';
-import { logout } from '../../store/thunks/auth';
+import NavForLogged from '../nav-for-logged/nav-for-logged';
+import { useAppSelector } from '../../hooks/useSelectors';
 
-function Header() {
-	const dispatch = useAppDispatch();
+interface HeaderProps {
+	withNavigation: boolean;
+}
 
-	const user = useAppSelector((state) => state.authData.authData);
+function Header({ withNavigation }: HeaderProps) {
 	const authStatus = useAppSelector(
 		(state) => state.authData.authorizationStatus
 	);
-	const favorites = useAppSelector((state) => state.favoritesData.favorites);
-
-	const handleLogout = () => {
-		dispatch(logout());
-	};
 
 	return (
 		<header className="header">
@@ -25,49 +21,21 @@ function Header() {
 						<Logo />
 					</div>
 
-					<nav className="header__nav">
-						<ul className="header__nav-list">
+					{withNavigation && (
+						<nav className="header__nav">
 							{authStatus === AuthStatus.Auth ? (
-								<>
-									<li className="header__nav-item user">
-										<Link
-											className="header__nav-link header__nav-link--profile"
-											to={AppRouter.Favorites}
-										>
-											<div className="header__avatar-wrapper user__avatar-wrapper">
-												<img
-													src={user?.avatarUrl}
-													alt="Avatar"
-													height={20}
-													width={20}
-													style={{ borderRadius: '50%' }}
-												/>
-											</div>
-											<span className="header__user-name user__name">
-												{user?.email}
-											</span>
-											<span className="header__favorite-count">
-												{favorites.length}
-											</span>
-										</Link>
-									</li>
-									<li className="header__nav-item">
-										<Link className="header__nav-link" to={'#'}>
-											<span className="header__signout" onClick={handleLogout}>
-												Sign out
-											</span>
-										</Link>
-									</li>
-								</>
+								<NavForLogged />
 							) : (
-								<li className="header__nav-item">
-									<Link className="header__nav-link" to={AppRouter.Login}>
-										<span className="header__signout">Sign in</span>
-									</Link>
-								</li>
+								<ul className="header__nav-list">
+									<li className="header__nav-item">
+										<Link className="header__nav-link" to={AppRouter.Login}>
+											<span className="header__signout">Sign in</span>
+										</Link>
+									</li>
+								</ul>
 							)}
-						</ul>
-					</nav>
+						</nav>
+					)}
 				</div>
 			</div>
 		</header>

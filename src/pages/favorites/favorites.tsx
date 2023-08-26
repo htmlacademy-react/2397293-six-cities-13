@@ -22,7 +22,7 @@ function FavoritesPage() {
 				'page--favorites-empty': !favorites.length,
 			})}
 		>
-			<Header />
+			<Header withNavigation />
 
 			{favorites.length ? (
 				<main className="page__main page__main--favorites">

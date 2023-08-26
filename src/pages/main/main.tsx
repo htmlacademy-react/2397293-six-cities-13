@@ -33,7 +33,7 @@ function MainPage() {
 
 	return (
 		<div className="page page--gray page--main">
-			<Header />
+			<Header withNavigation />
 			{statusFetchingAllOffers === RequestStatus.Loading ? (
 				<div
 					style={{
