@@ -53,8 +53,8 @@ export const Endpoint = {
 } as const;
 
 export enum FavoriteStatus {
-	AddFavorite = '1',
-	DeleteFavorite = '0',
+	AddFavorite = 1,
+	DeleteFavorite = 0,
 }
 
 export const SortingTypes = {

@@ -1,9 +1,11 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { AppRouter, RequestStatus } from '../../constants';
+import { AppRouter, AuthStatus, RequestStatus } from '../../constants';
 import { useDocumentTitle } from '../../hooks/document-title';
-import { FormEvent, useRef } from 'react';
+import { FormEvent, useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/useSelectors';
 import { loginAction } from '../../store/thunks/auth';
+import Header from '../../components/header/header';
+import { toast } from 'react-hot-toast';
 
 function LoginPage() {
 	useDocumentTitle('Login');
@@ -16,45 +18,39 @@ function LoginPage() {
 	const statusFetchingLogin = useAppSelector(
 		(state) => state.authData.statusFetchingAuthData
 	);
+	const authStatus = useAppSelector(
+		(state) => state.authData.authorizationStatus
+	);
+
+	useEffect(() => {
+		if (authStatus === AuthStatus.Auth) {
+			navigate(AppRouter.Main);
+		}
+	}, [authStatus, navigate]);
 
 	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
 		if (loginRef.current !== null && passwordRef.current !== null) {
-			dispatch(
-				loginAction({
-					email: loginRef.current.value,
-					password: passwordRef.current.value,
-				})
-			).then((response) => {
-				if (response.meta.requestStatus === 'fulfilled') {
-					navigate(AppRouter.Main);
-					loginRef.current = null;
-					passwordRef.current = null;
+			toast.promise(
+				dispatch(
+					loginAction({
+						email: loginRef.current.value,
+						password: passwordRef.current.value,
+					})
+				).unwrap(),
+				{
+					error: <b>Failed.</b>,
+					loading: 'Loading...',
+					success: <b>Success login!</b>,
 				}
-			});
+			);
 		}
 	};
 
 	return (
 		<div className="page page--gray page--login">
-			<header className="header">
-				<div className="container">
-					<div className="header__wrapper">
-						<div className="header__left">
-							<Link className="header__logo-link" to={AppRouter.Main}>
-								<img
-									className="header__logo"
-									src="img/logo.svg"
-									alt="6 cities logo"
-									width={81}
-									height={41}
-								/>
-							</Link>
-						</div>
-					</div>
-				</div>
-			</header>
+			<Header withNavigation={false} />
 
 			<main className="page__main page__main--login">
 				<div className="page__login-container container">
