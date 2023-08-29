@@ -8,6 +8,7 @@ const initialState: {
 	offer: FullOffer | null;
 	statusFetchingAllOffers: RequestStatus;
 	statusFetchingOffer: RequestStatus;
+	hasErrorOfferLoading: boolean;
 	activeCity: ICity['name'];
 	sorting: Sorting;
 } = {
@@ -15,6 +16,7 @@ const initialState: {
 	offer: null,
 	statusFetchingAllOffers: RequestStatus.Idle,
 	statusFetchingOffer: RequestStatus.Idle,
+	hasErrorOfferLoading: false,
 	activeCity: CITIES[0],
 	sorting: 'Popular',
 };
@@ -37,12 +39,15 @@ export const offersData = createSlice({
 		builder.addCase(getAllOffers.fulfilled, (state, action) => {
 			state.offers = action.payload;
 			state.statusFetchingAllOffers = RequestStatus.Success;
+			state.hasErrorOfferLoading = false;
 		});
 		builder.addCase(getAllOffers.rejected, (state) => {
 			state.statusFetchingAllOffers = RequestStatus.Failed;
+			state.hasErrorOfferLoading = true;
 		});
 		builder.addCase(getAllOffers.pending, (state) => {
 			state.statusFetchingAllOffers = RequestStatus.Loading;
+			state.hasErrorOfferLoading = false;
 		});
 		builder.addCase(getOffer.fulfilled, (state, action) => {
 			state.offer = action.payload;

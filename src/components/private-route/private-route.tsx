@@ -1,21 +1,24 @@
 import { Navigate } from 'react-router-dom';
 import { AppRouter, AuthStatus } from '../../constants';
-import { useAppSelector } from '../../hooks/useSelectors';
+import { ReactNode } from 'react';
 
-interface PrivateRouteProps {
-	children: React.ReactNode;
-}
+type AccessRouteProps = {
+	children: ReactNode;
+	status: AuthStatus;
+};
 
-function PrivateRoute({ children }: PrivateRouteProps) {
-	const authStatus = useAppSelector(
-		(state) => state.authData.authorizationStatus
-	);
+// eslint-disable-next-line react/display-name
+const createAccessRoute =
+	(accessStatus: AuthStatus, navigateRoute: string) =>
+		({ children, status }: AccessRouteProps) => {
+			if (status === accessStatus) {
+				return children;
+			}
+			return <Navigate to={navigateRoute} />;
+		};
 
-	return authStatus === AuthStatus.Auth ? (
-		children
-	) : (
-		<Navigate to={AppRouter.Login} />
-	);
-}
-
-export default PrivateRoute;
+export const PrivateRoute = createAccessRoute(AuthStatus.Auth, AppRouter.Login);
+export const PublicRoute = createAccessRoute(
+	AuthStatus.NotAuth,
+	AppRouter.Main
+);

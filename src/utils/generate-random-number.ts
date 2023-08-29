@@ -8,3 +8,7 @@ export const getRandomSlice = <El>(arr: El[], size: number): El[] => {
 	}
 	return Array.from(setOfIndexes.values()).map((i) => arr[i]);
 };
+
+export function getRandomInteger(max: number): number {
+	return Math.floor(Math.random() * max);
+}

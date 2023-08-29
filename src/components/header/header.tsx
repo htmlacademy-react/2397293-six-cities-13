@@ -29,6 +29,7 @@ function Header({ withNavigation }: HeaderProps) {
 								<ul className="header__nav-list">
 									<li className="header__nav-item">
 										<Link className="header__nav-link" to={AppRouter.Login}>
+											<div className="header__avatar-wrapper user__avatar-wrapper"></div>
 											<span className="header__signout">Sign in</span>
 										</Link>
 									</li>

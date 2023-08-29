@@ -60,3 +60,8 @@ export type FullOffer = Omit<IOffer, 'previewImage'> & {
 };
 
 export type Sorting = keyof typeof SortingTypes;
+
+export type CommentField = HTMLFormElement & {
+	review: HTMLTextAreaElement;
+	rating: HTMLInputElement;
+};
