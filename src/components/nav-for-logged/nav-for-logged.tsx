@@ -34,11 +34,11 @@ function NavForLogged() {
 				</Link>
 			</li>
 			<li className="header__nav-item">
-				<Link className="header__nav-link" to={'#'}>
+				<a className="header__nav-link" href="#">
 					<span className="header__signout" onClick={handleLogout}>
 						Sign out
 					</span>
-				</Link>
+				</a>
 			</li>
 		</ul>
 	);

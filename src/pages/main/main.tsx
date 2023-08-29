@@ -6,10 +6,11 @@ import { getOffersByCity } from '../../utils/get-offers-by-city';
 import { useAppDispatch, useAppSelector } from '../../hooks/useSelectors';
 import CitiesList from '../../components/cities-list/cities-list';
 import { useEffect } from 'react';
-import { RequestStatus } from '../../constants';
-import { ClipLoader } from 'react-spinners';
 import { fetchFavorites } from '../../store/thunks/favorites';
 import { getAllOffers } from '../../store/thunks/offers';
+import MainEmptyPage from '../main-empty/main-empty';
+import { RequestStatus } from '../../constants';
+import { ClipLoader } from 'react-spinners';
 
 function MainPage() {
 	useDocumentTitle('MainPage');
@@ -31,44 +32,40 @@ function MainPage() {
 		dispatch(fetchFavorites());
 	}, [dispatch]);
 
+	if (statusFetchingAllOffers === RequestStatus.Loading) {
+		return (
+			<div
+				style={{
+					width: '100%',
+					height: '100vh',
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center',
+				}}
+			>
+				<ClipLoader color="#378dcc" size={40} />
+			</div>
+		);
+	}
+
 	return (
 		<div className="page page--gray page--main">
 			<Header withNavigation />
-			{statusFetchingAllOffers === RequestStatus.Loading ? (
-				<div
-					style={{
-						width: '100%',
-						height: '100%',
-						display: 'flex',
-						alignItems: 'center',
-						justifyContent: 'center',
-					}}
-				>
-					<ClipLoader color="#378dcc" size={40} />
-				</div>
-			) : (
+
+			{currentOffers ? (
 				<main className="page__main page__main--index">
 					<h1 className="visually-hidden">Cities</h1>
 					<CitiesList activeCity={activeCity} />
 					<div className="cities">
-						{currentOffers ? (
-							<OffersList activeCity={activeCity} offers={currentOffers} />
-						) : (
-							<div className="cities__places-container cities__places-container--empty container">
-								<section className="cities__no-places">
-									<div className="cities__status-wrapper tabs__content">
-										<b className="cities__status">
-											No places to stay available
-										</b>
-										<p className="cities__status-description">
-											We could not find any property available at the moment in{' '}
-											{activeCity}
-										</p>
-									</div>
-								</section>
-								<div className="cities__right-section" />
-							</div>
-						)}
+						<OffersList activeCity={activeCity} offers={currentOffers} />
+					</div>
+				</main>
+			) : (
+				<main className="page__main page__main--index page__main--index-empty">
+					<h1 className="visually-hidden">Cities</h1>
+					<CitiesList activeCity={activeCity} />
+					<div className="cities">
+						<MainEmptyPage activeCity={activeCity} />
 					</div>
 				</main>
 			)}
