@@ -1,10 +1,15 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { AppRouter } from '../../constants';
+import classNames from 'classnames';
 
 function Logo() {
+	const { pathname } = useLocation();
+
 	return (
 		<Link
-			className="header__logo-link header__logo-link--active"
+			className={classNames('header__logo-link', {
+				'header__logo-link--active': pathname === AppRouter.Main,
+			})}
 			to={AppRouter.Main}
 		>
 			<img

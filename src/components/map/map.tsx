@@ -4,29 +4,30 @@ import { URL_MARKER_CURRENT, URL_MARKER_DEFAULT } from '../../constants';
 import { FullOffer, ICity } from '../../types/types';
 import { Icon, Marker, layerGroup } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { useAppSelector } from '../../hooks/useSelectors';
 
 interface MapProps {
 	city: ICity;
 	points: FullOffer[];
-	selectOffer?: FullOffer | undefined;
 	titleByClassName: string;
 }
 
 const defaultCustomIcon = new Icon({
 	iconUrl: URL_MARKER_DEFAULT,
-	iconSize: [30, 40],
-	iconAnchor: [20, 40],
+	iconSize: [27, 39],
+	iconAnchor: [13.5, 39],
 });
 
 const currentCustomIcon = new Icon({
 	iconUrl: URL_MARKER_CURRENT,
-	iconSize: [30, 40],
-	iconAnchor: [20, 40],
+	iconSize: [27, 39],
+	iconAnchor: [13.5, 39],
 });
 
-function Map({ city, points, selectOffer, titleByClassName }: MapProps) {
+function Map({ city, points, titleByClassName }: MapProps) {
 	const mapRef = useRef(null);
 	const map = useMap(mapRef, city);
+	const selectOffer = useAppSelector((state) => state.offersData.activeOffer);
 
 	useEffect(() => {
 		if (map) {
@@ -39,7 +40,7 @@ function Map({ city, points, selectOffer, titleByClassName }: MapProps) {
 
 				marker
 					.setIcon(
-						selectOffer !== undefined && point.id === selectOffer.id
+						selectOffer !== null && point.id === selectOffer.id
 							? currentCustomIcon
 							: defaultCustomIcon
 					)
@@ -50,7 +51,7 @@ function Map({ city, points, selectOffer, titleByClassName }: MapProps) {
 				map.removeLayer(markerLayer);
 			};
 		}
-	}, [map, points, selectOffer, city]);
+	}, [map, points, selectOffer, city, titleByClassName]);
 
 	useEffect(() => {
 		if (city) {
@@ -65,10 +66,10 @@ function Map({ city, points, selectOffer, titleByClassName }: MapProps) {
 		<section
 			ref={mapRef}
 			className={`${titleByClassName}__map map`}
-			style={{
-				height: '100%',
-				minHeight: '514px',
-			}}
+			// style={{
+			// 	height: '100%',
+			// 	minHeight: '514px',
+			// }}
 		/>
 	);
 }

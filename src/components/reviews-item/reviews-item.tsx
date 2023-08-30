@@ -5,18 +5,10 @@ interface ReviewsItemProps {
 }
 
 function ReviewsItem({ reviewData }: ReviewsItemProps) {
-	const dateConvert = (value: string) => {
-		let createBody;
-		if (value) {
-			const date = new Date(value);
-			const day = String(date.getDate()).padStart(2, '0');
-			const month = String(date.getMonth() + 1).padStart(2, '0');
-			const year = date.getFullYear();
-			const data = `${year}-${month}-${day}`;
-			createBody = data;
-		}
-		return createBody;
-	};
+	const formattedDate = new Date(reviewData.date).toLocaleDateString('en-US', {
+		month: 'long',
+		year: 'numeric',
+	});
 
 	return (
 		<li className="reviews__item">
@@ -40,8 +32,11 @@ function ReviewsItem({ reviewData }: ReviewsItemProps) {
 					</div>
 				</div>
 				<p className="reviews__text">{reviewData.comment}</p>
-				<time className="reviews__time" dateTime="2019-04-24">
-					{dateConvert(reviewData.date)}
+				<time
+					className="reviews__time"
+					dateTime={reviewData.date.split('T')[0]}
+				>
+					{formattedDate}
 				</time>
 			</div>
 		</li>

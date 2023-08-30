@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/useSelectors';
 import { toast } from 'react-hot-toast';
 import { loginAction } from '../../store/thunks/auth';
@@ -29,6 +29,13 @@ function LoginForm() {
 	const statusFetchingLogin = useAppSelector(
 		(state) => state.authData.statusFetchingAuthData
 	);
+
+	useEffect(() => {
+		setEmail('');
+		setPassword('');
+		setIsEmailTouched(false);
+		setIsPasswordTouched(false);
+	}, []);
 
 	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
