@@ -6,6 +6,7 @@ import { getAllOffers, getOffer } from '../thunks/offers';
 const initialState: {
 	offers: FullOffer[];
 	offer: FullOffer | null;
+	activeOffer: FullOffer | null;
 	statusFetchingAllOffers: RequestStatus;
 	statusFetchingOffer: RequestStatus;
 	hasErrorOfferLoading: boolean;
@@ -14,6 +15,7 @@ const initialState: {
 } = {
 	offers: [],
 	offer: null,
+	activeOffer: null,
 	statusFetchingAllOffers: RequestStatus.Idle,
 	statusFetchingOffer: RequestStatus.Idle,
 	hasErrorOfferLoading: false,
@@ -30,6 +32,9 @@ export const offersData = createSlice({
 		},
 		setActiveCity(state, action: PayloadAction<ICity['name']>) {
 			state.activeCity = action.payload;
+		},
+		setActiveOffer(state, action: PayloadAction<FullOffer | null>) {
+			state.activeOffer = action.payload;
 		},
 		clearOffers(state) {
 			state.offers = [];

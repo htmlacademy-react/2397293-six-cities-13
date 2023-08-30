@@ -6,14 +6,38 @@ import { FullOffer } from '../../types/types';
 import { getFavoriteOffersByCity } from '../../utils/get-offers-by-city';
 import Footer from '../../components/footer/footer';
 import FavoritesEmptyPage from '../favorites-empty/favorites-empty';
+import { RequestStatus } from '../../constants';
+import { ClipLoader } from 'react-spinners';
 
 function FavoritesPage() {
 	useDocumentTitle('Favorites');
 
 	const favorites = useAppSelector((state) => state.favoritesData.favorites);
+	const statusFetchingFavorites = useAppSelector(
+		(state) => state.favoritesData.status
+	);
 
 	const offersByCity: Record<string, FullOffer[]> =
 		getFavoriteOffersByCity(favorites);
+
+	if (statusFetchingFavorites === RequestStatus.Loading) {
+		return (
+			<div className="page">
+				<Header withNavigation />
+				<div
+					style={{
+						width: '100%',
+						height: '100vh',
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: 'center',
+					}}
+				>
+					<ClipLoader color="#378dcc" size={40} />
+				</div>
+			</div>
+		);
+	}
 
 	if (!favorites.length) {
 		return <FavoritesEmptyPage />;

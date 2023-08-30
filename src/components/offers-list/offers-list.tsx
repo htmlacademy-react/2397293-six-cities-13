@@ -1,10 +1,11 @@
 import { FullOffer } from '../../types/types';
 import Card from '../card/card';
 import Map from '../../components/map/map';
-import { SetStateAction, useState } from 'react';
-import { useAppSelector } from '../../hooks/useSelectors';
+import { useCallback } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks/useSelectors';
 import SortingForm from '../sorting-form/sorting-form';
 import { sortingHelper } from '../../utils/sorting';
+import { offersActions } from '../../store/offers-data/offers-data';
 
 interface OffersListProps {
 	activeCity: string;
@@ -12,17 +13,16 @@ interface OffersListProps {
 }
 
 function OffersList({ activeCity, offers }: OffersListProps) {
-	const [selectOffer, setSelectOffer] = useState<FullOffer | undefined>(
-		undefined
-	);
+	const dispatch = useAppDispatch();
 
 	const { sorting } = useAppSelector((state) => state.offersData);
 
-	const handleSelectOfferChange = (
-		offer: SetStateAction<FullOffer | undefined>
-	) => {
-		setSelectOffer(offer);
-	};
+	const handleActiveOfferChange = useCallback(
+		(offer: FullOffer | null) => {
+			dispatch(offersActions.setActiveOffer(offer));
+		},
+		[dispatch]
+	);
 
 	return (
 		<div className="cities__places-container container">
@@ -39,8 +39,8 @@ function OffersList({ activeCity, offers }: OffersListProps) {
 							key={offer.id}
 							{...offer}
 							bemClassTitle="cities"
-							onMouseEnter={() => handleSelectOfferChange(offer)}
-							onMouseLeave={() => handleSelectOfferChange(undefined)}
+							onMouseEnter={() => handleActiveOfferChange(offer)}
+							onMouseLeave={() => handleActiveOfferChange(null)}
 						/>
 					))}
 				</div>
@@ -49,7 +49,6 @@ function OffersList({ activeCity, offers }: OffersListProps) {
 				<Map
 					city={offers[0].city}
 					points={offers}
-					selectOffer={selectOffer}
 					titleByClassName={'cities'}
 				/>
 			</div>

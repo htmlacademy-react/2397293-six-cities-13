@@ -63,3 +63,5 @@ export const SortingTypes = {
 	PriceToLow: 'Price: high to low',
 	Rating: 'Top rated first',
 } as const;
+
+export const MAX_REVIEWS_COUNT = 10;

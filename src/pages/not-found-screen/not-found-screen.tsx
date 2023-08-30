@@ -1,13 +1,13 @@
 import { useNavigate } from 'react-router-dom';
-import './not-found.css';
 import Header from '../../components/header/header';
+import './not-found.css';
 
 const NotFoundScreen = () => {
 	const navigate = useNavigate();
 
 	return (
 		<div className="page">
-			<Header withNavigation={false} />
+			<Header withNavigation />
 			<div style={{ textAlign: 'center', marginTop: '5%' }}>
 				<button className="btn-back" onClick={() => navigate(-1)}>
 					Back
